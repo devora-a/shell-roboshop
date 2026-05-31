@@ -1,7 +1,7 @@
 #!bin/bash
 
 LOGS_FOLDER="var/log/roboshop"
-sudo mkdir -P $LOGS_FOLDER
+sudo mkdir -p $LOGS_FOLDER
 sudo chown -R ec2-user:ec2-user $LOGS_FOLDER
 sudo chmod -R 755 $LOGS_FOLDER
 LOGS_FILE="$LOGS_FOLDER/$0.log"
