@@ -38,8 +38,8 @@ do
             {   
                 "comment": "Updating A record to new IP",
                 "changes": [
-                     
-                    {    "Action": "UPSERT",
+                    } 
+                        "Action": "UPSERT",
                         "ResourceRecordSet": {
                             "Name": "'$R53_RECORD'",
                             "Type": "A",
