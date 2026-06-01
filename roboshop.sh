@@ -10,7 +10,7 @@ do
      INSTANCE_ID=$(aws ec2 run-instances \
         --image-id ami-0220d79f3f480ecf5 \
         --instance-type t3.micro \
-        --security-group "roboshop-common" "roboshop-$instance" \
+        --security-groups "roboshop-common" "roboshop-$instance" \
         --tag-specifications "ResourceType=instance,Tags=[{key=Name,value=roboshop-$instance}]" \
         --query 'Instances[0].Instaanceid' \
         --output text
@@ -36,23 +36,22 @@ do
         --hosted-zone-id $ZONE_ID \
         --change-batch '
             {   
-                    "comment": "Updating A record to new IP",
-                    "changes": [
+                "comment": "Updating A record to new IP",
+                "changes": [
                      
-                        {    "Action": "UPSERT",
-                             "ResourceRecordSet": {
-                                 "Name": "'$R53_RECORD'",
-                                  "Type": "A",
-                                  "TTL": 1,
-                                "ResourceRecords": [
-                                    {
-                                        "Value": "'$IP'"
-                            }   ]   }
-                        }
-                    ]
+                    {    "Action": "UPSERT",
+                        "ResourceRecordSet": {
+                            "Name": "'$R53_RECORD'",
+                            "Type": "A",
+                            "TTL": 1,
+                            "ResourceRecords": [
+                                {
+                                    "Value": "'$IP'"
+                        }   ]   }
+                    }
+                ]
                 
             }
         '
 done
 
-    
