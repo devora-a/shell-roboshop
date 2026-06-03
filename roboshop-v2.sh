@@ -35,8 +35,8 @@ for instance in $@
 do  
     INSTANCE_ID=$(get_instance_id $instance)
     if [ $ACTION == "create" ]; then
-        if [ $INSTANCE_ID == "None" ]; then ...
-            echo "Launching instance: $instance"
+        if [ $INSTANCE_ID == "None" ]; then 
+            echo "Launching instance: roboshop-$instance"
             INSTANCE_ID=$(aws ec2 run-instances \
                 --image-id $AMI_ID \
                 --instance-type t3.micro \
@@ -45,9 +45,9 @@ do
                 --query 'Instances[0].InstanceId' \
                 --output text
             )
-            echo "Instance ID: $INSTANCE_ID"
+            echo "Launched Instance: $INSTANCE_ID"
         else
-            echo -e "$Y Instance $instance already exists with ID: $INSTANCE_ID $N"
+            echo -e "roboshop-$instance already running: $INSTANCE_ID $N"
         fi
 
         # update R53 record
