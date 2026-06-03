@@ -1,5 +1,14 @@
 #!bin/bash
 
+
+AMI_ID=ami-0220d79f3f480ecf5
+ZONE_ID=Z04138223ALQPP4SRQZFJ
+DOMAIN_NAME=arrud.online
+R="\e[31m"
+G="\e[32m"
+Y="\e[33m"
+N="\e[0m"
+
 ### validation ###
 if [ $# -lt 2 ]; then
   echo -e "$R ERROR: : Atleast 2 arguments required $N"
@@ -23,7 +32,7 @@ get_instance_id(){
 }    
 
 for instance in $@
-do
+do  
     INSTANCE_ID=$(get_instance_id $instance)
     if [ $ACTION == "create" ]; then
         if [ $INSTANCE_ID == "None" ]; then ...
@@ -46,6 +55,9 @@ do
         R53_RECORD="$instance.$DOMAIN_NAME"
     fi
 
+
+     
+    fi
     aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONE_ID \
     --change-batch '
