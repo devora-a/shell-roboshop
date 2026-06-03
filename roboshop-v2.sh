@@ -36,8 +36,18 @@ do
     INSTANCE_ID=$(get_instance_id $instance)
     if [ $ACTION == "create" ]; then
         if [ $INSTANCE_ID == "None" ]; then ...
-        else    
-            echo "roboshop-$instance already running: $INSTANCE_ID"
+            echo "Launching instance: $instance"
+            INSTANCE_ID=$(aws ec2 run-instances \
+                --image-id $AMI_ID \
+                --instance-type t3.micro \
+                --security-groups "roboshop-common" "roboshop-$instance" \
+                --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]" \
+                --query 'Instances[0].InstanceId' \
+                --output text
+            )
+            echo "Instance ID: $INSTANCE_ID"
+        else
+            echo -e "$Y Instance $instance already exists with ID: $INSTANCE_ID $N"
         fi
 
         # update R53 record
