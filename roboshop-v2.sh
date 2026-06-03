@@ -26,7 +26,7 @@ for instance in $@
 do
     INSTANCE_ID=$(get_instance_id $instance)
     if [ $ACTION == "create" ]; then
-        if [ $INSTANCE_ID == "None" ]; then
+        if [ $INSTANCE_ID == "None" ]; then ...
         else    
             echo "roboshop-$instance already running: $INSTANCE_ID"
         fi
