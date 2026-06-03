@@ -27,7 +27,7 @@ do
     INSTANCE_ID=$(get_instance_id $instance)
     if [ $ACTION == "create" ]; then
         if [ $INSTANCE_ID == "None" ]; then
-    else
+        else
             echo "roboshop-$instance already running: $INSTANCE_ID"
         fi
 
@@ -38,7 +38,7 @@ do
          --output text
         )
         R53_RECORD="$DOMAIN_NAME"
-    else
+        else
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
          --query 'Reservations[*].Instances[*].PrivateIpAddress' \
          --output text
