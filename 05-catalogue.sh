@@ -39,7 +39,7 @@ if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
 VALIDATE $? "Creating roboshop user"
 else
-    echo "system user roboshop already created ... $Y skipping $N"
+    echo -e "system user roboshop already created ... $Y skipping $N"
 fi
 
 rm -rf /app &>>$LOGS_FILE
@@ -56,7 +56,7 @@ cd /app
 unzip /tmp/catalogue.zip
 VALIDATE $? "Downloading and extracting catalogue code"
 
-npm install &>>$LOGS_FILE
+npm install 
 VALIDATE $? "Installing catalogue dependencies"
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
