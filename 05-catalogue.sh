@@ -5,6 +5,7 @@ sudo mkdir -p $LOGS_FOLDER
 sudo chown -R ec2-user:ec2-user $LOGS_FOLDER
 sudo chmod -R 755 $LOGS_FOLDER
 LOGS_FILE="$LOGS_FOLDER/$0.log"
+
 SCRIPT_DIR=$PWD
 
 USER_ID=$(id -u)
@@ -74,11 +75,11 @@ if [ $INDEX -lt 0]; then
     mongosh --host mongodb.arrud.online < /app/db/mater-data.js &>>$LOGS_FILE
 VALIDATE $? "Loading products"
 else
-    echo "products already loaded ... $Y skipping $N"
+    echo -e "products already loaded ... $Y skipping $N"
 fi
 
 systemctl enable catalogue &>>$LOGS_FILE
-systemctl restart catalogue &>>$LOGS_FILE
+systemctl restart catalogue &>>$LOGS_FILE 
 VALIDATE $? "reStarting and enabling catalogue service"
 
 
