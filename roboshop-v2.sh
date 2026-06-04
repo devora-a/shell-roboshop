@@ -89,7 +89,8 @@ do
                 
         }
     '
-        echo -e "Updated R53 record: $R53_RECORD -> $IP $N"
+    echo -e "Updated R53 record: $R53_RECORD -> $IP $N"
+    
     else
         if [ $INSTANCE_ID == "None" ]; then 
             echo "$instance already destroyed nothing to do"
