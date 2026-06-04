@@ -1,6 +1,6 @@
 #!bin/bash
 
-LOGS_FOLDER="var/log/roboshop"
+LOGS_FOLDER="/var/log/roboshop"
 sudo mkdir -p $LOGS_FOLDER
 sudo chown -R ec2-user:ec2-user $LOGS_FOLDER
 sudo chmod -R 755 $LOGS_FOLDER
@@ -56,7 +56,7 @@ cd /app
 unzip /tmp/catalogue.zip
 VALIDATE $? "Downloading and extracting catalogue code"
 
-npm install 
+npm install &>>$LOGS_FILE
 VALIDATE $? "Installing catalogue dependencies"
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
@@ -65,10 +65,10 @@ VALIDATE $? "Created systemctl service"
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding MongoDB repo"
 
-dnf install mongodb-mongosh -y 
+dnf install mongodb-mongosh -y &>>$LOGS_FILE
 VALIDATE $? "Installing MongoDB client"
 
-INDEX=$(mongodh --host mongodb.arrud.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
+INDEX=$(mongosh --host mongodb.arrud.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 
 if [ $INDEX -lt 0]; then
     mongosh --host mongodb.arrud.online < /app/db/mater-data.js &>>$LOGS_FILE
