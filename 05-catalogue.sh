@@ -28,6 +28,12 @@ fi
 
 }
 
+dnf module disable nodejs -y &>>$LOGS_FILE
+dnf module enable nodejs:20 -y &>>$LOGS_FILE
+dnf install nodejs -y &>>$LOGS_FILE
+VALIDATE $? "Installing nodejs:20"
+
+
 id roboshop &>>$LOGS_FILE
 if [ $? -ne 0 ]; then
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
@@ -50,7 +56,7 @@ cd /app
 unzip /tmp/catalogue.zip
 VALIDATE $? "Downloading and extracting catalogue code"
 
-npm install 
+npm install &>>$LOGS_FILE
 VALIDATE $? "Installing catalogue dependencies"
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
@@ -59,7 +65,7 @@ VALIDATE $? "Created systemctl service"
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding MongoDB repo"
 
-dnf install mongodb-mongosh -y 
+dnf install mongodb-mongosh -y &>>$LOGS_FILE
 VALIDATE $? "Installing MongoDB client"
 
 INDEX=$(mongodh --host mongodb.arrud.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
