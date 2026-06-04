@@ -71,7 +71,7 @@ VALIDATE $? "Installing MongoDB client"
 
 INDEX=$(mongosh --host mongodb.arrud.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 
-if [ $INDEX -lt 0]; then
+if [ $INDEX -lt 0 ]; then
     mongosh --host mongodb.arrud.online < /app/db/mater-data.js &>>$LOGS_FILE
 VALIDATE $? "Loading products"
 else
