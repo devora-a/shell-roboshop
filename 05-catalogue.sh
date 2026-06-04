@@ -56,7 +56,7 @@ cd /app
 unzip /tmp/catalogue.zip
 VALIDATE $? "Downloading and extracting catalogue code"
 
-npm install &>>$LOGS_FILE
+npm install 
 VALIDATE $? "Installing catalogue dependencies"
 
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
@@ -65,7 +65,7 @@ VALIDATE $? "Created systemctl service"
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding MongoDB repo"
 
-dnf install mongodb-mongosh -y &>>$LOGS_FILE
+dnf install mongodb-mongosh -y 
 VALIDATE $? "Installing MongoDB client"
 
 INDEX=$(mongodh --host mongodb.arrud.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
