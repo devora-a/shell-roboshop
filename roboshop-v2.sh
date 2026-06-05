@@ -98,4 +98,5 @@ do
             aws ec2 terminate-instances --instance-ids $INSTANCE_ID
             echo "Terminated Instance: $instance"
         fi
+    fi
 done
