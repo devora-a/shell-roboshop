@@ -93,9 +93,9 @@ do
     
     else
         if [ $INSTANCE_ID == "None" ]; then 
-            echo "$instance already destroyed nothing to do"
+            echo "$instance already destroyed, nothing to do"
         else
             aws ec2 terminate-instances --instance-ids $INSTANCE_ID
-            echo "Terminated Instance: $INSTANCE_ID"
+            echo "Terminated Instance: $instance"
         fi
 done
