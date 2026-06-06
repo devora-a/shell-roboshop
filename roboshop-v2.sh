@@ -29,7 +29,7 @@ fi
 
 get_instance_id(){
     name=$1
-    aws ec2 describe-instances --filters "Name=tag:Name,Values=roboshop-$instance" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text
+    aws ec2 describe-instances --filters "Name=tag:Name,Values=roboshop-instance" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text
 
 }    
 
@@ -54,16 +54,16 @@ do
 
         # update R53 record
         if [ $instance == "frountend" ]; then
-           IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
-           --query 'Reservations[*].Instances[*].PublicIpAddress' \
-           --output text
-        )
+             IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
+             --query 'Reservations[*].Instances[*].PublicIpAddress' \
+             --output text
+            )
             R53_RECORD="$DOMAIN_NAME"
         else
            IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
-           --query 'Reservations[*].Instances[*].PrivateIpAddress' \
-           --output text
-        )
+             --query 'Reservations[*].Instances[*].PrivateIpAddress' \
+             --output text
+            )
             R53_RECORD="$instance.$DOMAIN_NAME"
         fi
 
