@@ -47,9 +47,10 @@ VALIDATE $? "Downloading and extracting frontend code"
 rm -rf /etc/nginx/nginx.conf
 VALIDATE $? "Removed default conf"
 
-cp nginx.conf /etc/nginx/nginx.conf
+cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
 VALIDATE $? "Copied roboshop nginx conf"
 
 systemctl restart nginx
-Systemctl enable nginx
+systemctl enable nginx
 VALIDATE $? "enabled and restarted nginx"
+
