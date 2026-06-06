@@ -24,6 +24,8 @@ if [ "$ACTION" != "create" ] && [ "$ACTION" != "delete" ]; then
     echo "UASGE: $0 [create/delete] [instance1] [instance2...]"
     exit 1
 fi
+     
+
 
 get_instance_id(){
     name=$1
