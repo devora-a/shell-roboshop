@@ -57,6 +57,7 @@ unzip /tmp/shipping.zip
 VALIDATE $? "Downloading and extracting shipping code"
 
 mvn clean package &>>$LOGS_FILE
+mv target/shipping-1.0.jar shipping.jar 
 VALIDATE $? "Installing shipping dependencies"
 
 cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
