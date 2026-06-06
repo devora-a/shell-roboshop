@@ -46,7 +46,7 @@ do
                 --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]" \
                 --query 'Instances[0].InstanceId' \
                 --output text
-            )
+                )
             echo "Launched Instance: $INSTANCE_ID"
         else
             echo -e "roboshop-$instance already running: $INSTANCE_ID $N"
@@ -57,22 +57,22 @@ do
              IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
              --query 'Reservations[*].Instances[*].PublicIpAddress' \
              --output text
-            )
+             )
             R53_RECORD="$DOMAIN_NAME"
         else
            IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
              --query 'Reservations[*].Instances[*].PrivateIpAddress' \
              --output text
-            )
+             )
             R53_RECORD="$instance.$DOMAIN_NAME"
         fi
 
 
      
     
-    aws route53 change-resource-record-sets \
-    --hosted-zone-id $ZONE_ID \
-    --change-batch '
+     aws route53 change-resource-record-sets \
+      --hosted-zone-id $ZONE_ID \
+      --change-batch '
        {   
             "Comment": "Updating A record to new IP",
             "Changes": [
