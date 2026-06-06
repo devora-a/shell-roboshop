@@ -8,6 +8,7 @@ sudo chmod -R 755 $LOGS_FOLDER
 LOGS_FILE="$LOGS_FOLDER/$0.log"
 
 SCRIPT_DIR=$PWD
+MYSQL_HOST=mysql.arrud.online
 
 USER_ID=$(id -u)
 R="\e[31m"
@@ -63,4 +64,18 @@ VALIDATE $? "Created systemctl service"
 
 dnf install mysql -y &>>$LOGS_FILE
 VALIDATE $? "Installing mysql client"
- 
+
+mysql -h $MYSQL_HOST -u root -pRoboshop@1 -e "use cities" &>>$LOGS_FILE
+if [ $? -ne 0 ]; then
+     mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
+     mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql
+     mysql -h $MYSQL_HOST
+    VALDATE $? "Data loaded ... $Y SKIPPING $N"
+else
+    ECHO -e "Data already loaded ... $Y SKIPPING $N"
+fi
+
+systemctl enable shipping &>>$LOGS_FILE
+systemctl restart shipping &>>$LOGS_FILE
+VALIDATE $? "enable and restarted shipping shipping"
+
