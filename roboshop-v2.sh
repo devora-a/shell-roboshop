@@ -9,6 +9,8 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+ALL_INSTANCES="mongobd redis mysql rabbitmq catalogue user cart shipping payment frontend"
+
 ### validation ###
 if [ $# -lt 2 ]; then
   echo -e "$R ERROR: : Atleast 2 arguments required $N"
@@ -21,10 +23,21 @@ shift # first argument will be removed
 
 if [ "$ACTION" != "create" ] && [ "$ACTION" != "delete" ]; then
     echo -e "$R ERROR: : First argument must be either 'create' or 'delete' $N"
-    echo "UASGE: $0 [create/delete] [instance1] [instance2...]"
+    echo "UASGE: $0 [create/delete] [instance1] [instance2...] or [all]"
     exit 1
 fi
-     
+
+# if "all" is passed, expand to full list (reversed for delete)
+if [ "$1" == "all" ]; then
+    if [ "$ACTION" == "create" ]; then
+          INSTANCES="$ALL_INSTANCES"
+    else
+         INSTANCES=$(echo $ALL_INSTANCES | tr ' ' '\n' | tac | tr '\n' ' ')
+    fi
+else
+   INSTANCES="$@"
+fi                  
+
 
 
 get_instance_id(){
