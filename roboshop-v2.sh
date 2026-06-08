@@ -51,17 +51,17 @@ do
     INSTANCE_ID=$(get_instance_id "$instance")
     if [ $ACTION == "create" ]; then
         if [ $INSTANCE_ID == "None" ]; then 
-                echo "Launching instance: roboshop-$instance"
-                INSTANCE_ID=$(aws ec2 run-instances \
-                --image-id $AMI_ID \
-                --instance-type t3.micro \
-                --security-groups "roboshop-common" "roboshop-$instance" \
-                --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]" \
-                --query 'Instances[0].InstanceId' \
-                --output text
-                )
-                echo "Launched Instance: $INSTANCE_ID"
-                sleep 2 #sometimes instances take time to create
+            echo "Launching instance: roboshop-$instance"
+            INSTANCE_ID=$(aws ec2 run-instances \
+            --image-id $AMI_ID \
+            --instance-type t3.micro \
+            --security-groups "roboshop-common" "roboshop-$instance" \
+            --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]" \
+            --query 'Instances[0].InstanceId' \
+            --output text
+            )
+            echo "Launched Instance: $INSTANCE_ID"
+            sleep 2 #sometimes instances take time to create
 
 
         else
@@ -70,23 +70,23 @@ do
 
         # update R53 record
         if [ $instance == "frountend" ]; then
-             IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
-             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-             --output text
-             )
+            IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --output text
+            )
             R53_RECORD="$DOMAIN_NAME"
         else
            IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
-             --query 'Reservations[*].Instances[*].PrivateIpAddress' \
-             --output text
-             )
+            --query 'Reservations[*].Instances[*].PrivateIpAddress' \
+            --output text
+            )
             R53_RECORD="$instance.$DOMAIN_NAME"
         fi
 
     
-      aws route53 change-resource-record-sets \
-      --hosted-zone-id $ZONE_ID \
-      --change-batch '
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
        {   
             "Comment": "Updating A record to new IP",
             "Changes": [
