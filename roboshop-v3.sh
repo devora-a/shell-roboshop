@@ -13,7 +13,7 @@ ALL_INSTANCES="mongodb redis mysql rabbitmq catalogue user cart shipping payment
 ### validation ###
 if [ $# -lt 2 ]; then
   echo -e "$R ERROR: : Atleast 2 arguments required $N"
-  echo "USAGE: $0 [create/delete] [instance1] [instance2...]"
+  echo "USAGE: $0 [create/delete] [instance1] [instance2...] or [all]"
   exit 1
 fi
 
