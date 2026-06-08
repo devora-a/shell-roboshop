@@ -46,22 +46,22 @@ get_instance_id(){
 
 for instance in $@
 do  
-       INSTANCE_ID=$(get_instance_id $instance)
-       if [ $ACTION == "create" ]; then
-            if [ $INSTANCE_ID == "None" ]; then 
-                echo "Launching instance: roboshop-$instance"
-                INSTANCE_ID=$(aws ec2 run-instances \
-                --image-id $AMI_ID \
-                --instance-type t3.micro \
-                --security-groups "roboshop-common" "roboshop-$instance" \
-                --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]" \
-                --query 'Instances[0].InstanceId' \
-                --output text
-                )
-                echo "Launched Instance: $INSTANCE_ID"
-            else
-                 echo -e "roboshop-$instance already running: $INSTANCE_ID $N"
-             fi
+    INSTANCE_ID=$(get_instance_id $instance)
+   if [ $ACTION == "create" ]; then
+        if [ $INSTANCE_ID == "None" ]; then 
+            echo "Launching instance: roboshop-$instance"
+            INSTANCE_ID=$(aws ec2 run-instances \
+            --image-id $AMI_ID \
+            --instance-type t3.micro \
+            --security-groups "roboshop-common" "roboshop-$instance" \
+            --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]" \
+            --query 'Instances[0].InstanceId' \
+            --output text
+            )
+            echo "Launched Instance: $INSTANCE_ID"
+        else
+            echo -e "roboshop-$instance already running: $INSTANCE_ID $N"
+        fi
 
         # update R53 record
         if [ $instance == "frountend" ]; then
