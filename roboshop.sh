@@ -14,7 +14,7 @@ do
         --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]" \
         --query 'Instances[0].InstanceId' \
         --output text
-    )
+     )
     echo "Instance ID: $INSTANCE_ID"
 
     if [ $instance == "frountend" ]; then
@@ -25,8 +25,8 @@ do
         R53_RECORD="$DOMAIN_NAME"
     else
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID \
-         --query 'Reservations[*].Instances[*].PrivateIpAddress' \
-         --output text
+        --query 'Reservations[*].Instances[*].PrivateIpAddress' \
+        --output text
         )
         R53_RECORD="$instance.$DOMAIN_NAME"
     fi
