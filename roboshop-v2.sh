@@ -13,9 +13,9 @@ ALL_INSTANCES="mongobd redis mysql rabbitmq catalogue user cart shipping payment
 
 ### validation ###
 if [ $# -lt 2 ]; then
-  echo -e "$R ERROR: : Atleast 2 arguments required $N"
-  echo "USAGE: $0 [create/delete] [instance1] [instance2...]"
-  exit 1
+    echo -e "$R ERROR: : Atleast 2 arguments required $N"
+    echo "USAGE: $0 [create/delete] [instance1] [instance2...]"
+    exit 1
 fi
 
 ACTION=$1
@@ -30,9 +30,9 @@ fi
 # if "all" is passed, expand to full list (reversed for delete)
 if [ "$1" == "all" ]; then
     if [ "$ACTION" == "create" ]; then
-          INSTANCES="$ALL_INSTANCES"
+        INSTANCES="$ALL_INSTANCES"
     else
-         INSTANCES=$(echo $ALL_INSTANCES | tr ' ' '\n' | tac | tr '\n' ' ')
+        INSTANCES=$(echo $ALL_INSTANCES | tr ' ' '\n' | tac | tr '\n' ' ')
     fi
 else
    INSTANCES="$@"
@@ -51,8 +51,8 @@ do
     INSTANCE_ID=$(get_instance_id "$instance")
     if [ $ACTION == "create" ]; then
         if [ $INSTANCE_ID == "None" ]; then 
-            echo "Launching instance: roboshop-$instance"
-            INSTANCE_ID=$(aws ec2 run-instances \
+                echo "Launching instance: roboshop-$instance"
+                INSTANCE_ID=$(aws ec2 run-instances \
                 --image-id $AMI_ID \
                 --instance-type t3.micro \
                 --security-groups "roboshop-common" "roboshop-$instance" \
@@ -60,7 +60,10 @@ do
                 --query 'Instances[0].InstanceId' \
                 --output text
                 )
-            echo "Launched Instance: $INSTANCE_ID"
+                echo "Launched Instance: $INSTANCE_ID"
+                sleep 2 #sometimes instances take time to create
+
+
         else
             echo -e "roboshop-$instance already running: $INSTANCE_ID $N"
         fi
