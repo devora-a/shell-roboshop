@@ -39,8 +39,8 @@ fi
 
 
 get_instance_id(){
-    name=$1
-    aws ec2 describe-instances --filters "Name=tag:Name,Values=roboshop-$name" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text
+  name=$1
+  aws ec2 describe-instances --filters "Name=tag:Name,Values=roboshop-$name" "Name=instance-state-name,Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text
 
 }    
 
@@ -50,7 +50,7 @@ do
     if [ $ACTION == "create" ]; then
         if [ $INSTANCE_ID == "None" ]; then 
             echo "Launching instance: roboshop-$instance"
-            INSTANCE_ID=$(aws ec2 run-instances \
+                INSTANCE_ID=$(aws ec2 run-instances \
                 --image-id $AMI_ID \
                 --instance-type t3.micro \
                 --security-groups "roboshop-common" "roboshop-$instance" \
@@ -81,9 +81,9 @@ do
 
      
     
-      aws route53 change-resource-record-sets \
-      --hosted-zone-id $ZONE_ID \
-      --change-batch '
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
        {   
             "Comment": "Updating A record to new IP",
             "Changes": [
